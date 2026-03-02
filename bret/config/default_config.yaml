@@ -1,0 +1,114 @@
+# BRET Default Configuration
+# ===========================
+
+# Preprocessing parameters
+# Filtering
+cutoff_frequency: 30                          # Low-pass filter cutoff frequency (Hz)
+butter_order: 4                 # Butterworth filter order
+
+# Cleaning
+sampleing_rate: 250                # Sampling rate of the eye-tracking data (Hz)
+coalesce: 0.5                   # Blink coalescing threshold (seconds)
+diameter_threshold: 0           # Pupil diameter threshold for blink detection
+blink_padding: 0.2              # Blink padding duration (seconds)
+saccade_padding: 0.05           # Saccade padding duration (seconds)
+
+# Validation
+missing_data_threshold: 0.3     # Maximum allowed proportion of missing data per trial
+
+# Visualization
+plot: true                      # Generate preprocessing QC plots
+
+# Screen parameters
+width_mm: 470                   # Physical screen width (mm)
+height_mm: 265                  # Physical screen height (mm)
+distance_mm: 1050               # Viewing distance (mm)
+screen_resolution: [1920, 1080]        # Screen resolution [width, height] (pixels)
+fixation_distance: 56           # Fixation spot offset from center (pixels)
+
+# Feature engineering
+# Temporal features
+window_size: 0.5                # Rolling window size (seconds)
+compute_fixation_duration: true
+compute_rolling_majority: true
+
+# Motion features
+compute_velocity: true
+compute_acceleration: true
+dt: 0.004                       # Time step for motion calculation (seconds)
+
+# Spatial features
+compute_distances: true
+degrees_per_pixel: null         # Will be calculated from screen params if null
+
+# Reconstruction parameters
+method: "euclidean"             # Reconstruction method ('euclidean')
+include_mixed: true             # Include "mixed" percept state
+
+# Log distance ratio classifier
+use_ratio_classifier: false     # Use log(d1/d2) instead of argmin
+ratio_threshold: 0.0            # τ for ratio classifier (0 = argmin equivalent)
+
+# Peri-jump exclusion
+peri_jump_margin_ms: 50         # Exclude samples ±N ms from fixation jumps
+exclude_peri_jump: true         # Whether to exclude peri-jump samples in aggregation
+
+# Smoothing
+apply_smoothing: false           # Apply temporal smoothing before aggregation
+smoothing_method: "median"      # 'uniform' or 'median'
+smoothing_window_ms: 150        # Smoothing window in ms (= samples at 1kHz)
+smoothing_delta: 0.05           # Hysteresis half-width for thresholding
+smoothing_window_range: [200, 2000]  # Range for grid search (ms)
+smoothing_window_step: 10       # Step size for grid search (ms)
+delta_thresholds: [0.02, 0.05, 0.07, 0.1]  # Delta values for grid search
+
+# Aggregation
+aggregate_by_fixation: true
+aggregation_method: "mode"      # 'mode', 'median', or 'mean'
+
+# Jump-induced transition analysis
+jump_transition_window_ms: 200  # ±window (ms) around a fixpoint jump to classify a switch as jump-induced
+transition_smoothing_window_ms: 400  # pre-smoothing window (ms) before transition detection (400ms = 100 samples @ 250Hz)
+
+# Subject-specific settings
+# Trials to exclude from analysis (calibration runs)
+gammafit_trials:
+  "11": [1, 2]
+  "12": [1, 2]
+  "13": [1, 2]
+  "14": [1, 2]
+
+# Runs to completely exclude
+excluded_runs:
+  "11": []
+  "12": []
+  "13": []
+  "14": []
+
+# File paths
+data_dir: "data"
+output_dir: null                # If null, outputs go to <data_dir>/sub-{N}/<subdir>
+
+# Output subdirectories
+subdirs:
+  raw: "raw"
+  preprocessed: "preprocessed"
+  features: "features"
+  percepts: "percepts"
+  quality: "quality"
+  logs: "logs"
+
+# Visualization settings
+colors:
+  house: "#C41E3A"              # Cardinal red
+  face: "#0F52BA"               # Sapphire blue
+  mixed: "#A0A0A0"              # Gray
+
+figsize: [12, 6]
+dpi: 100
+save_format: "png"
+
+# Logging
+level: "INFO"                   # DEBUG, INFO, WARNING, ERROR
+format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+log_to_file: true
