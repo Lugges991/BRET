@@ -34,9 +34,9 @@ Two paradigms are supported:
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/BRET.git
+git clone https://github.com/Lugges991/BRET.git
 cd BRET
-pip install -e ".[dev]"
+pip install -e .
 ```
 
 **Requirements**: Python ≥ 3.8, NumPy, Pandas, SciPy, scikit-learn, matplotlib,
