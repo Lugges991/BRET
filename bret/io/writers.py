@@ -32,6 +32,7 @@ def save_preprocessed_data(
 _SIDECAR_COLS = [
     "Timestamp",
     "Trial",
+    "Type",  # rivalry vs replay — needed for events TSV labelling
     "InferredPercept",
     "InferredPerceptMixed",
     "FixpointSection",
