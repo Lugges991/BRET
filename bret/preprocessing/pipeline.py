@@ -55,14 +55,14 @@ class PreprocessingPipeline:
         """
         logger.info(f"Processing {asc_file}")
         base_dir = asc_file.parent
-        run_number = int(re.search(r"r(\d+)(?:nr|r)$", asc_file.stem).group(1))
-        parameter_files = base_dir.glob("*stimuli.mat")
-        # get all .mat files that contain "run"
-        parameter_files = [f for f in parameter_files if "run" in f.stem]
-        # get the mat file with highest run number that is less than or equal to the run number of the asc file
         m = re.search(r"r(\d+)(nr|r)$", asc_file.stem)
         run_number = int(m.group(1))
         run_type = "no-report" if m.group(2) == "nr" else "report"
+        # get all .mat stimuli files with a numeric run number, sorted by run number
+        parameter_files = sorted(
+            [f for f in base_dir.glob("*stimuli.mat") if re.search(r"run(\d+)", f.stem)],
+            key=lambda f: int(re.search(r"run(\d+)", f.stem).group(1))
+        )
 
         mat_file = None
         for f in parameter_files:
