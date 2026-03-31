@@ -192,6 +192,59 @@ Full cross-subject report: `data/eval_report_all_subjects.csv`.
 
 ---
 
+## Generating Figures & Reports
+
+### Reconstruction accuracy report (heatmap, metric distributions, bar chart)
+
+First run the pipeline with evaluation enabled to generate eval summaries:
+
+```bash
+bret batch --data-dir data --evaluate              # preprocess + reconstruct + evaluate
+# or if already preprocessed:
+bret batch --data-dir data --reconstruct-only --evaluate
+```
+
+Then generate the figures:
+
+```bash
+python examples/generate_eval_report.py
+```
+
+Outputs saved to `data/figures/`:
+- `accuracy_per_subject.png` — per-subject mean 2-class vs 3-class accuracy
+- `metric_distributions.png` — run-level accuracy / F1 / MCC box plots per subject
+- `accuracy_heatmap.png` — subjects × runs accuracy heatmap
+
+---
+
+### Jump-induced vs spontaneous transition analysis
+
+```bash
+# Single run (saves timeline + heatmap figures)
+python examples/saccade_induced_switches.py
+python examples/saccade_induced_switches.py --percepts data/sub-11/percepts/s11r06r_percepts.csv
+
+# All subjects (saves transition_report_all_subjects.csv, no figures)
+python examples/saccade_induced_switches.py --all-subjects --data-dir data
+```
+
+### Transition report summary figure (for presentations)
+
+After running `--all-subjects` above:
+
+```bash
+python examples/plot_transition_report.py
+# custom input/output:
+python examples/plot_transition_report.py \
+    --input data/transition_report_all_subjects.csv \
+    --output data/figures/transitions_summary.png
+```
+
+Saves `data/figures/transitions_summary.png` — two-panel figure showing per-subject
+% jump-induced transitions (report vs no-report) and stacked breakdown across subjects.
+
+---
+
 ## Roadmap / To-Do
 
 ### High priority
