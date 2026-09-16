@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/bret_logo.png" alt="BRET logo" width="200">
+</p>
+
 # BRET — Binocular Rivalry Eye Tracking
 
 A Python package for preprocessing EyeLink eye-tracking data and reconstructing
@@ -211,6 +215,7 @@ python examples/generate_eval_report.py
 ```
 
 Outputs saved to `data/figures/`:
+
 - `accuracy_per_subject.png` — per-subject mean 2-class vs 3-class accuracy
 - `metric_distributions.png` — run-level accuracy / F1 / MCC box plots per subject
 - `accuracy_heatmap.png` — subjects × runs accuracy heatmap
